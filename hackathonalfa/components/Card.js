@@ -93,7 +93,7 @@ const CardApp = (props) => {
             </TouchableOpacity>
 
             <TouchableOpacity style={styles.button} onPress ={() => deleteAlert()}>
-              <Ionicons name={"trash-outline"} size={20} style={styles.iconDelete}/>
+              <Ionicons name={"close-outline"} size={20} style={styles.iconDelete}/>
             </TouchableOpacity>
             
           </View>

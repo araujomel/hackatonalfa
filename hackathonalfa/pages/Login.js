@@ -8,7 +8,7 @@ import { useNavigation } from '@react-navigation/native';
 import InitialPage from './Initial';
 
 
-const Login = ({ navigation, route }) => {
+const Login = ({ navigation}) => {
   const [value, setValues] = React.useState({ cpf: "", senha: "" });
   const navigate = useNavigation()
   
@@ -24,10 +24,15 @@ const Login = ({ navigation, route }) => {
     if (value) {
       if (value.senha.length>=6) {
         const response = await login(value.cpf, value.senha)
-        console.log(response)
+        console.log(response.data.funcionario.permissao)
         //se os valores corresponderem aos recebidos, direciona a tela inicial
         if (response.status === 200 && response.data.loginValido == '1') {
-          navigate.navigate("RDO", response.data.cpf)
+          console.log(response.data.funcionario)
+          if(response.data.funcionario[0].permissao === "Gerente"){
+            navigate.navigate("RDO", {funcionario :response.data.funcionario[0].cpf})
+          }else{
+            navigate.navigate("RegisterRDC")
+          }
 
         } else {
           Alert.alert("erro")

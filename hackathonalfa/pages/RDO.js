@@ -12,7 +12,7 @@ import { acceptRDO } from '../server/acceptRDO';
 //import { copilot, walkthroughable, CopilotStep  } from "react-native-copilot";
 
 
-const RDO = ({navigation}, route)=> {
+const RDO = ({navigation, route})=> {
 
   //const CopilotText = walkthroughable(Text);
 
@@ -25,9 +25,8 @@ const RDO = ({navigation}, route)=> {
   }, []);
 
   const renderList = ((item) => {
-    
     return(
-     <CardApp rdo={item} funcionario={"13544341843"}/>
+     <CardApp rdo={item} funcionario={route.params.funcionario}/>
     )
   })
 
