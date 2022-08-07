@@ -1,17 +1,37 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
-import { createDrawerNavigator } from '@react-navigation/drawer';
+import { StatusBar } from 'expo-status-bar';
+import { StyleSheet, Text, View, TouchableOpacity, Alert } from 'react-native';
 
 
-export default function App() {
+/*const teste = () => {
+  fetch('http://localhost:2022/ponto')
+    .then(response => response.json())
+    .then(response => {
+      console.log(response)
+    }).catch(err => {
+      console.log(err)
+    })
+
+}*/
+
+import Pilha from './Stack';
+
+export default function App(navigation) {
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+
+    <NavigationContainer>
+      <Pilha/>
+    </NavigationContainer>
+
+    /*<View style = {styles.container}>
+      <Text>AAA</Text>
+      <Pilha/>
+    </View>*/
   );
 }
+
+
 
 const styles = StyleSheet.create({
   container: {
