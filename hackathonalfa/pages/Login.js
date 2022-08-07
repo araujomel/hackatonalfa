@@ -5,6 +5,7 @@ import Title from '../components/TopMenu';
 import axios from 'axios';
 import { login } from '../server/loginServices';
 import { useNavigation } from '@react-navigation/native';
+import InitialPage from './Initial';
 
 
 const Login = ({ navigation, route }) => {
@@ -19,15 +20,17 @@ const Login = ({ navigation, route }) => {
 
   const verificarLogin = async () => {
     if (value) {
-      if (value.length>=6) {
+      if (value.senha.length>=6) {
         const response = await login(value.cpf, value.senha)
-
-        if (response.status === 200) {
+        console.log(response)
+        if (response.status === 200 && response.data.loginValido == '1') {
           navigate.navigate("InitialPage")
 
         } else {
           Alert.alert("erro")
         }
+      }else{
+        //Alert.alert("A senha deve possuir no mínimo 6 caracteres")
       }
     }
   }
