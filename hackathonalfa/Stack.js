@@ -24,6 +24,11 @@ export default function Pilha(){
       
       />
 
+      <Stack.Screen
+        name="RDO"
+        component={RDO}
+
+      />
     <Stack.Screen
       name="InitialPage"
       component={InitialPage}
@@ -31,11 +36,6 @@ export default function Pilha(){
       />
       
 
-    <Stack.Screen
-      name="RDO"
-      component={RDO}
-
-    />
 
     <Stack.Screen
       name="RegisterRDC"

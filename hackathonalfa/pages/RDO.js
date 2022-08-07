@@ -6,15 +6,46 @@ import moment from 'moment'
 import Title from '../components/TopMenu';
 import { ScrollView } from 'react-native-gesture-handler';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import axios from 'axios';
+import { listarRdosPendentes } from '../server/fetchPendingRDO';
+import { acceptRDO } from '../server/acceptRDO';
 //import { copilot, walkthroughable, CopilotStep  } from "react-native-copilot";
 
 
-const RDO = ({navigation}, props)=> {
+const RDO = ({navigation}, route)=> {
 
   //const CopilotText = walkthroughable(Text);
 
+  
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true)
+
+  useEffect ( () => {
+    buscarRDOs();
+  }, []);
+
+  const renderList = ((item) => {
+    
+    return(
+     <CardApp rdo={item} funcionario={"13544341843"}/>
+    )
+  })
+
+  
+
+  const buscarRDOs = async () => {
+    const response = await listarRdosPendentes()
+      console.log(response)
+      if (response.status === 200) {
+        setData(response.data.rdo)
+        //navigate.navigate("InitialPage")
+        console.log(data)
+
+      } else {
+        Alert.alert("erro")
+      }
+    
+  }
 
   return(
     <View style = {styles.container}>
@@ -25,13 +56,21 @@ const RDO = ({navigation}, props)=> {
           <Text style = {styles.backButton}><Ionicons name={"chevron-back-outline"} size={18}/>Voltar</Text>
         </TouchableOpacity>
         <ScrollView>
+
           <View style={styles.cards}>
-              <CardApp/>
-              <CardApp/>
-              <CardApp/>
-              <CardApp/>
-              <CardApp/>
-              <CardApp/>
+          {  
+          <FlatList
+            data =  {data}
+            renderItem = {({item}) => {
+                return renderList(item)
+            }}
+            keyExtractor={item => item.nome}
+            onRefresh = {() => buscarRDOs()}
+            refreshing ={loading}
+          />
+        } 
+
+
           </View>
         </ScrollView>
         
@@ -43,6 +82,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#a6a6a6',
+    width: '100%'
   },
   containerTitle: {
     flexShrink: 0,

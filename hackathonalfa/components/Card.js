@@ -6,12 +6,14 @@ import { Avatar, Button, Card, Title, Paragraph } from 'react-native-paper';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import moment from 'moment'
 import { ScrollView } from 'react-native-gesture-handler';
-
+import axios from 'axios';
+import { acceptRDO } from '../server/acceptRDO';
 
 const CardApp = (props) => {
+  const [value, setValues] = React.useState({ id: "", cpfAprovou: "" });
   const navigation = useNavigation();
   const [category, setCategory] = useState([]);
-  const deleteAlert = () =>
+  /*const deleteAlert = () =>
     Alert.alert(
       `Rejeitar RDO`,
       `Tem certeza que deseja rejeitar o RDO?`,
@@ -25,7 +27,23 @@ const CardApp = (props) => {
           style: "cancel"
         }
       ]
-    );
+    );*/
+
+    const aprovarRDO = async () => {
+      if(value){
+        console.log(value.id)
+        console.log(value.cpfAprovou)
+        const response = await acceptRDO(props.rdo.id, props.funcionario)
+          console.log(response)
+          if (response.status === 200) {
+            //navigate.navigate("InitialPage")
+    
+          } else {
+            Alert.alert("erro")
+          }
+      }
+      
+    }
 
 
   const acceptAlert = () =>
@@ -56,7 +74,7 @@ const CardApp = (props) => {
           <View style={styles.title}>
             {/* <Ionicons name={"pencil"} size={10} style={styles.profile}/> */}
             <View style={{flexDirection: 'column', flex: 1, flexWrap: 'wrap', flexShrink: 1}}>
-              <Text style = {styles.cardTitle}>Relatório de Obra</Text>
+              <Text style = {styles.cardTitle}>{props.rdo.nome}</Text>
             </View>
           </View>
 
@@ -70,7 +88,7 @@ const CardApp = (props) => {
               <Ionicons name={"search-outline"} size={20} style={styles.iconEdit}/>
             </TouchableOpacity>
 
-            <TouchableOpacity style={styles.button} onPress={() => acceptAlert()} >
+            <TouchableOpacity style={styles.button} onPress={() => aprovarRDO()} >
               <Ionicons name={"checkmark-outline"} size={20} style={styles.iconAccept}/>
             </TouchableOpacity>
 
@@ -112,7 +130,7 @@ const styles = StyleSheet.create({
     
     borderRadius: 10,
     overflow: "hidden",
-    padding: '3%',
+    padding: '5%',
     marginRight: '4%',
     marginBottom: '5%',
     borderWidth: 1,

@@ -12,19 +12,22 @@ const Login = ({ navigation, route }) => {
   const [value, setValues] = React.useState({ cpf: "", senha: "" });
   const navigate = useNavigation()
   
-  const requestOptions = {
+
+  const requestOptions = { 
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ postName: 'React updates ' })
   };
 
+  //verifica se a senha possui seis caracteres e recebe os valores do servidor para comparacao
   const verificarLogin = async () => {
     if (value) {
       if (value.senha.length>=6) {
         const response = await login(value.cpf, value.senha)
         console.log(response)
+        //se os valores corresponderem aos recebidos, direciona a tela inicial
         if (response.status === 200 && response.data.loginValido == '1') {
-          navigate.navigate("InitialPage")
+          navigate.navigate("RDO", response.data.cpf)
 
         } else {
           Alert.alert("erro")
